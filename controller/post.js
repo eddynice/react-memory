@@ -44,10 +44,10 @@ export const createPost = async(req, res) => {
 }
 
 export const updatePost = async(req, res) => {
-    const { id } = req.params;
+    const { id: _id } = req.params;
     // const { title, message, creator, selectedFile, tags } = req.body;
     const post = req.body;
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`No post with id: ${id}`);
 
     //const updatedPost = { creator, title, message, tags, selectedFile, _id: id };
     const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true });
@@ -70,6 +70,7 @@ export const deletePost = async(req, res) => {
 
 export const likePost = async(req, res) => {
     const { id } = req.params;
+    if (!req.userId) return res.json({ message: 'unauthenticated' })
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 

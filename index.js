@@ -3,7 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors"
 import PostRoute from './route/post.js';
-//import userRoute from "./route/user";
+import userRoute from "./route/user.js";
 
 const app = express();
 
@@ -13,7 +13,11 @@ app.use(cors());
 
 
 app.use('/post', PostRoute);
-//app.use('./user', userRoute);
+app.use('/user', userRoute);
+
+app.get('/', (req, res) => {
+    res.send('hello welcome to tru');
+})
 
 
 const CONNECTED_URL = "mongodb://127.0.0.1:27017/memory";
