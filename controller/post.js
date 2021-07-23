@@ -8,7 +8,7 @@ const router = express.Router();
 
 export const getPosts = async(req, res) => {
     const { page } = req.query
-    console.log(req.body)
+    console.log(req.query)
     try {
         const LIMIT = 8
         const startIndex = (Number(page) - 1) * LIMIT;
@@ -41,6 +41,8 @@ export const getPostsSearch = async(req, res) => {
 
 export const getPost = async(req, res) => {
     const { id } = req.params;
+    console.log("xxmxmnm")
+
 
     try {
         const post = await PostMessage.findById(id);
@@ -112,5 +114,16 @@ export const likePost = async(req, res) => {
     res.json(updatedPost);
 }
 
+
+
+export const commentPost = async(req, res) => {
+    const { id } = req.params;
+    const { value } = req.body;
+    const post = await PostMessage.findById(id);
+    post.comment.push(value);
+
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+    res.json(updatedPost);
+}
 
 export default router;
